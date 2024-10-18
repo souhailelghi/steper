@@ -31,6 +31,8 @@ const Stepper = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+        console.log("validate Token is good ");
+
         setSports(response.data);
         setIsAuthorized(true);
         setTokenError("");
@@ -45,7 +47,34 @@ const Stepper = () => {
       setTokenError("Veuillez entrer un token.");
     }
   };
+  //fetch data : 
+  const validateData = async () => {
 
+    try {
+      setLoading(true);
+      var tkn = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZGFtQGpvYmludGVjaC11aXIubWEiLCJqdGkiOiIyZjc5NmIzMC05NGZlLTQzN2ItOTcyYi00NDI4ZDUxNzA3YmYiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VyIiwiZXhwIjoxNzI5MzA1NDEwLCJpc3MiOiJGcmVlVHJhaW5lZCJ9.NurGeD1NqOXBIr0Qj3WmDleqL8oV6yZTALfjbO15AAg"
+
+      var categoryId = "eee3c100-fde6-43b7-b40d-f38de2267be6"
+
+      const response = await axios.get(`https://localhost:7125/api/Sports/category/${categoryId}`, {
+        headers: {
+          Authorization: `Bearer ${tkn}`,
+        },
+      });
+      console.log('res :!! ', response);
+      console.log('res : ?', response.data);
+      setSports(response.data);
+      setIsAuthorized(true);
+      setTokenError("");
+    } catch (error) {
+      setIsAuthorized(false);
+      setTokenError("data not here today try tomorow .");
+      setError(error.response ? error.response.data : 'Error fetching data ?!');
+    } finally {
+      setLoading(false);
+    }
+
+  };
   // Fetch the matches for the selected sport category
   const fetchMatchesForCategory = async (categoryId) => {
     try {
@@ -55,6 +84,11 @@ const Stepper = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+      // console.log('res for fetch CategoryId :!! ', response);
+      console.log('res for fetch CategoryId :!! ', response.data.name);
+      console.log("good ! ");
+
+
       setMatches(response.data); // Update matches based on response from the API
       setError("");
     } catch (error) {
@@ -111,6 +145,8 @@ const Stepper = () => {
             />
             <div className="mt-10"> {/* Ajout d'une marge pour espacer */}
               <button onClick={validateToken} className="btn btn-primary">Validate Token</button>
+              {/* <button onClick={validateData} className="btn btn-primary">fetch data</button> */}
+
             </div>
             {tokenError && <p className="text-red-600 mt-2">{tokenError}</p>}
           </div>
@@ -151,18 +187,23 @@ const Stepper = () => {
                   className={`card ${selectedCategory === match.title ? "selected" : ""}`}
                   onClick={() => setSelectedCategory(match.title)}
                 >
+
                   <img
                     src={match.image} // Ensure the API returns valid image URLs
                     alt={match.title}
                     className="w-32 h-32 object-cover"
                   />
-                  <p>{match.title}</p>
+                  <p>{match.name}</p>
                 </div>
               ))}
             </div>
             {selectedCategory && (
               <p className="mt-2 text-green-600">Match sélectionné : {selectedCategory}</p>
+
             )}
+
+
+
           </div>
         )}
 
