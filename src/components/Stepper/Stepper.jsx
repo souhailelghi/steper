@@ -187,7 +187,6 @@ const Stepper = () => {
                   className={`card ${selectedCategory === match.title ? "selected" : ""}`}
                   onClick={() => setSelectedCategory(match.title)}
                 >
-
                    <img 
               src={match.image ? `data:image/png;base64,${match.image}` : 'placeholder.png'} 
               alt={match.name} 
