@@ -206,7 +206,7 @@ const Stepper = () => {
           </div>
         )}
 
-        {/* Navigation buttons */}
+        {/* Navigation buttons .*/}
         <div className="flex justify-between mt-6 -mx-6">
           {currentStep > 1 && !complete && (
             <button
