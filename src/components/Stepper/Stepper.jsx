@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { TiTick } from "react-icons/ti";
 import "./stepper.css";
-import footballA from '../../assets/footballA.jpg';
-import footballB from '../../assets/footballB.jpg';
-import footballC from '../../assets/footballC.jpg';
+import footballA from '../../assets/footballA.jpg'; // Example image imports
 
 const Stepper = () => {
   const steps = ["Token Authorization", "Choisir Sport", "Choisir Match", "Réserver terrain"];
@@ -15,30 +13,10 @@ const Stepper = () => {
   const [token, setToken] = useState("");
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [tokenError, setTokenError] = useState("");
-  const [sports, setSports] = useState([]); // State to store sports
+  const [sports, setSports] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  const matchCategories = {
-    Football: [
-      { name: "Match A", image: footballA },
-      { name: "Match B", image: footballB },
-      { name: "Match C", image: footballC }
-    ],
-    Basketball: [
-      { name: "Match A", image: "/images/basketballA.jpg" },
-      { name: "Match B", image: "/images/basketballB.jpg" }
-    ],
-    Padel: [
-      { name: "Match A", image: "/images/padelA.jpg" },
-      { name: "Match B", image: "/images/padelB.jpg" }
-    ],
-    Tennis: [
-      { name: "Match A", image: "/images/tennisA.jpg" },
-      { name: "Match B", image: "/images/tennisB.jpg" }
-    ],
-    Musculation: []
-  };
+  const [matches, setMatches] = useState([]); // To store the matches for a category
 
   const handleInputChange = (e) => {
     setToken(e.target.value);
@@ -65,6 +43,36 @@ const Stepper = () => {
       }
     } else {
       setTokenError("Veuillez entrer un token.");
+    }
+  };
+
+  // Fetch the matches for the selected sport category
+  const fetchMatchesForCategory = async (categoryId) => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`https://localhost:7125/api/Sports/category/${categoryId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setMatches(response.data); // Update matches based on response from the API
+      setError("");
+    } catch (error) {
+      setError("Failed to fetch matches for the selected category.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Trigger fetching of matches when a sport is selected
+  const handleSportSelection = (e) => {
+    const selectedSport = e.target.value;
+    setSelectedSport(selectedSport);
+    setSelectedCategory(""); // Reset the selected match
+
+    const selectedSportObject = sports.find(sport => sport.name === selectedSport);
+    if (selectedSportObject && selectedSportObject.id) {
+      fetchMatchesForCategory(selectedSportObject.id); // Fetch matches using the sport's category id
     }
   };
 
@@ -101,7 +109,9 @@ const Stepper = () => {
               onChange={handleInputChange}
               placeholder="Enter Token"
             />
-            <button onClick={validateToken} className="btn btn-primary mt-2">Validate Token</button>
+            <div className="mt-10"> {/* Ajout d'une marge pour espacer */}
+              <button onClick={validateToken} className="btn btn-primary">Validate Token</button>
+            </div>
             {tokenError && <p className="text-red-600 mt-2">{tokenError}</p>}
           </div>
         )}
@@ -115,10 +125,7 @@ const Stepper = () => {
             <select
               className="select"
               value={selectedSport}
-              onChange={(e) => {
-                setSelectedSport(e.target.value);
-                setSelectedCategory("");
-              }}
+              onChange={handleSportSelection} // Call the handler to fetch matches
             >
               <option value="">-- Sélectionnez un sport --</option>
               {sports.map((sport, index) => (
@@ -134,22 +141,22 @@ const Stepper = () => {
         )}
 
         {/* Step 3: Choose Match Category */}
-        {currentStep === 3 && selectedSport && matchCategories[selectedSport]?.length > 0 && (
+        {currentStep === 3 && selectedSport && matches.length > 0 && (
           <div>
             <h3 className="text-lg font-semibold mb-2">Choisissez un match pour {selectedSport} :</h3>
             <div className="card-container">
-              {matchCategories[selectedSport].map((category, index) => (
+              {matches.map((match, index) => (
                 <div
                   key={index}
-                  className={`card ${selectedCategory === category.name ? "selected" : ""}`}
-                  onClick={() => setSelectedCategory(category.name)}
+                  className={`card ${selectedCategory === match.title ? "selected" : ""}`}
+                  onClick={() => setSelectedCategory(match.title)}
                 >
                   <img
-                    src={category.image}
-                    alt={category.name}
+                    src={match.image} // Ensure the API returns valid image URLs
+                    alt={match.title}
                     className="w-32 h-32 object-cover"
                   />
-                  <p>{category.name}</p>
+                  <p>{match.title}</p>
                 </div>
               ))}
             </div>
@@ -191,7 +198,3 @@ const Stepper = () => {
 };
 
 export default Stepper;
-
-
-
-

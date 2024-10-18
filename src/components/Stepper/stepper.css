@@ -1,34 +1,26 @@
-/* Container style */
-.container {
-  background-color: #87CEEB;
-  /* Sky Blue */
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+/* Style global */
+body {
+  background-color: #1c2230;
+  font-family: Arial, sans-serif;
 }
 
-/* Stepper item */
+.container {
+  background-color: white;
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style des étapes */
 .step-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
-  position: relative;
-  width: 100px;
-  transition: all 0.3s ease;
+  flex: 1;
 }
 
-/* Active and complete steps */
-.step-item.active .step {
-  border-color: #4caf50;
-  color: #4caf50;
-}
-
-.step-item.complete .step {
-  background-color: #4caf50;
-  color: white;
-}
-
-/* Step circle */
 .step {
   display: flex;
   justify-content: center;
@@ -36,141 +28,225 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 2px solid #d3d3d3;
-  font-size: 16px;
-  font-weight: bold;
+  background-color: #e5e7eb;
+  color: #9ca3af;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
 }
 
-/* Select input */
-.select {
+.step-item.active .step {
+  background-color: #f4f4f5;
+  border: 2px solid #4CAF50;
+  color: #4CAF50;
+}
+
+.step-item.complete .step {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.step-item p {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+/* Champ de texte et select */
+select.select,
+input[type="text"].select {
   width: 100%;
-  padding: 8px;
-  border: 1px solid #d3d3d3;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border: 1px solid #ccc;
   border-radius: 4px;
-  background-color: #fff;
-  font-size: 16px;
+  font-size: 1rem;
+  background-color: white;
+  color: #333;
 }
 
-/* Button styles */
-.btn {
-  padding: 10px 20px;
+input[type="text"]:focus,
+select:focus {
+  border-color: #4CAF50;
+  outline: none;
+}
+
+/* Boutons */
+button.btn {
+  padding: 0.75rem 1.25rem;
   border-radius: 4px;
-  font-size: 16px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
 }
 
-/* Primary button style */
-.btn-primary {
-  background-color: #007bff;
+button.btn-primary {
+  background-color: #4CAF50;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+button.btn-primary:hover {
+  background-color: #45a049;
+}
+
+button.btn-secondary {
+  background-color: #1c2230;
   color: white;
 }
 
-/* Primary button hover */
-.btn-primary:hover {
-  background-color: #0056b3;
+button.btn-secondary:hover {
+  background-color: #343a45;
 }
 
-/* Secondary button style */
-.btn-secondary {
-  background-color: #6c757d;
+button.btn-success {
+  background-color: #28a745;
   color: white;
 }
 
-/* Secondary button hover */
-.btn-secondary:hover {
-  background-color: #5a6268;
+/* Erreurs et validation */
+.text-red-600 {
+  color: #f44336;
 }
 
-/* Disabled button style */
-.btn-disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.text-green-600 {
+  color: #4CAF50;
 }
 
-/* Card styles for image selection */
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.mt-8 {
+  margin-top: 2rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+/* Cartes des matchs */
+.card-container {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
 .card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  overflow: hidden;
-  width: 150px;
+  width: 120px;
   text-align: center;
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
   cursor: pointer;
+  transition: border-color 0.3s ease;
 }
 
-/* Card image */
+.card.selected {
+  border-color: #4CAF50;
+}
+
 .card img {
   width: 100%;
   height: 100px;
   object-fit: cover;
+  margin-bottom: 0.5rem;
 }
 
-/* Card text */
-.card p {
-  margin: 10px 0;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-/* Card hover effect */
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-/* Selected card */
-.card.selected {
-  border: 4px solid #4caf50;
-}
-
-/* Card container layout */
-.card-container {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 20px;
-}
-
-/* Popup style (assuming you have a modal) */
-.popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #003366;
-  /* Dark Blue */
-  color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-}
-
-/* Additional utility classes */
-.fixed {
-  position: fixed;
-}
-
-.inset-0 {
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
+/* Alignement */
 .flex {
   display: flex;
 }
 
-.items-center {
-  align-items: center;
+.justify-between {
+  justify-content: space-between;
 }
 
 .justify-center {
   justify-content: center;
 }
 
-.z-50 {
-  z-index: 50;
+.items-center {
+  align-items: center;
+}
+
+.max-w-2xl {
+  max-width: 42rem;
+}
+
+.p-6 {
+  padding: 1.5rem;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.w-32 {
+  width: 8rem;
+}
+
+.h-32 {
+  height: 8rem;
+}
+
+/* Responsive: rendre le composant adaptable à différentes tailles d'écrans */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+    max-width: 100%;
+  }
+
+  .step {
+    width: 35px;
+    height: 35px;
+  }
+
+  .step-item p {
+    font-size: 0.75rem;
+  }
+
+  .card {
+    width: 100px;
+    padding: 0.5rem;
+  }
+
+  button.btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  /* Les étapes (Step) s'empilent en colonnes sur les petits écrans */
+  .step-item {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .step-item p {
+    margin-left: 0.5rem;
+  }
+}
+
+/* Responsive pour les écrans très petits (mobile) */
+@media (max-width: 480px) {
+  .card-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .card {
+    width: 100%;
+    padding: 0.5rem;
+  }
+
+  .step-item {
+    flex-direction: column;
+  }
+
+  .step {
+    width: 30px;
+    height: 30px;
+  }
 }
