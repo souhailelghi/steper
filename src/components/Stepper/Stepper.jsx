@@ -188,11 +188,11 @@ const Stepper = () => {
                   onClick={() => setSelectedCategory(match.title)}
                 >
 
-                  <img
-                    src={match.image} // Ensure the API returns valid image URLs
-                    alt={match.title}
-                    className="w-32 h-32 object-cover"
-                  />
+                   <img 
+              src={match.image ? `data:image/png;base64,${match.image}` : 'placeholder.png'} 
+              alt={match.name} 
+              style={{ width: '100px', height: '100px' }} 
+            />
                   <p>{match.name}</p>
                 </div>
               ))}
